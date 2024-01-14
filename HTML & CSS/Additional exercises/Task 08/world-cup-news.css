@@ -1,0 +1,44 @@
+#wrapper {
+    width: 700px;
+    height: 730px;
+    border: 1px solid #000000;
+    margin: 0 auto; /* Center the container */
+    padding: 10px 20px;
+    background-color: #a6e1ec;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+strong {
+    font-weight: bold;
+}
+
+img {
+    width: 200px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.text {
+    color: #3f51b5;
+}
+
+li {
+    width: 595px;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    border: 1px solid #000000;
+    list-style-type: none;
+    color: #3f51b5
+}
