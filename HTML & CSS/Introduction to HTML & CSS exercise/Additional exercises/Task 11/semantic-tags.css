@@ -1,0 +1,23 @@
+div {
+    width: 480px;
+    padding: 25px;
+    background-color: #f9f7cf;
+}
+
+header {
+    background-color:#f2dcbb;
+    padding: 5px;
+    width: 480px;
+}
+
+main {
+    padding: 5px;
+    width: 480px;
+}
+
+footer {
+    background-color:#f2dcbb;
+    padding: 5px;
+    width: 480px;
+}
+
