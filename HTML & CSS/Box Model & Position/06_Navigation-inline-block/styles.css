@@ -1,0 +1,45 @@
+body {
+    padding: 4em;
+    font: 16px/1.5 Helvetica, sans-serif;
+}
+
+header {
+    border-bottom: 2px solid #ccc;
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space between title and nav */
+    align-items: center; /* Align items vertically */
+}
+
+header .site-title a {
+    font-size: 3em;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+}
+
+header .site-title {
+    margin-right: 2em; /* Space between title and nav */
+}
+
+nav ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none; /* Remove bullet points */
+    display: flex; /* Align nav items horizontally */
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav a {
+    color: #090; /* Dark green color */
+    text-decoration: none;
+    padding: 1em;
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+nav a:hover {
+    background-color: #e0f0e0; /* Light green background on hover */
+    border-radius: 4px; /* Optional: round the corners on hover */
+}
