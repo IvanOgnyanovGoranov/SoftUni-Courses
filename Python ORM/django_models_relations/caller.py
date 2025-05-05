@@ -1,13 +1,14 @@
 import os
 import django
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Avg
+from psycopg2._psycopg import Int, Float
 
 # Set up Django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "orm_skeleton.settings")
 django.setup()
 
 # Import your models here
-from main_app.models import Author, Book, Artist, Song
+from main_app.models import Author, Book, Artist, Song, Product, Review
 
 
 # Create queries within functions
@@ -53,4 +54,20 @@ def remove_song_from_artist(artist_name: str, song_title: str) -> None:
     artist.songs.remove(song)
 
 
-songs = get_songs_by_artist("Daniel Di Angelo")
+def calculate_average_rating_for_product_by_name(product_name: str) -> Float:
+    product = Product.objects.get(name=product_name)
+    reviews = product.reviews.all()
+
+    return reviews.aggregate(Avg('rating'))['rating__avg']
+
+
+def get_reviews_with_high_ratings(threshold: int) -> QuerySet[Review]:
+    return Review.objects.filter(rating__gte=threshold)
+
+
+def get_products_with_no_reviews() -> QuerySet[Product]:
+    return Product.objects.filter(rating__isnull=True).order_by('-name')
+
+
+def delete_products_without_reviews() -> None:
+    get_products_with_no_reviews().delete()
