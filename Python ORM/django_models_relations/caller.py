@@ -1,4 +1,6 @@
 import os
+from datetime import date, timedelta
+
 import django
 from django.db.models import QuerySet, Avg
 from psycopg2._psycopg import Int, Float
@@ -8,7 +10,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "orm_skeleton.settings")
 django.setup()
 
 # Import your models here
-from main_app.models import Author, Book, Artist, Song, Product, Review
+from main_app.models import Author, Book, Artist, Song, Product, Review, DrivingLicense, Driver
 
 
 # Create queries within functions
@@ -71,3 +73,31 @@ def get_products_with_no_reviews() -> QuerySet[Product]:
 
 def delete_products_without_reviews() -> None:
     get_products_with_no_reviews().delete()
+
+
+def calculate_licenses_expiration_dates() -> str:
+    licenses_exp_date = []
+
+    all_licenses = DrivingLicense.objects.all().order_by('-license_number')
+
+    for l in all_licenses:
+        exp_date = l.issue_date + timedelta(days=365)
+
+        licenses_exp_date.append(f"License with number: {l.license_number} expires on {exp_date}!")
+
+    return '\n'.join(licenses_exp_date)
+
+
+def get_drivers_with_expired_licenses(due_date: date) -> QuerySet[Driver]:
+    expiration_date = due_date - timedelta(days=365)
+    drivers_with_exp_licenses = Driver.objects.filter(license__issue_date__gt=expiration_date)
+
+    return drivers_with_exp_licenses
+
+
+
+
+drivers_with_expired_licenses = get_drivers_with_expired_licenses(date(2023, 1, 1))
+for driver in drivers_with_expired_licenses:
+
+    print(f"{driver.first_name} {driver.last_name} has to renew their driving license!")
