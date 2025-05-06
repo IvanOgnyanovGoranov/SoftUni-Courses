@@ -10,7 +10,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "orm_skeleton.settings")
 django.setup()
 
 # Import your models here
-from main_app.models import Author, Book, Artist, Song, Product, Review, DrivingLicense, Driver
+from main_app.models import Author, Book, Artist, Song, Product, Review, DrivingLicense, Driver, Owner, Car, \
+    Registration
 
 
 # Create queries within functions
@@ -95,9 +96,21 @@ def get_drivers_with_expired_licenses(due_date: date) -> QuerySet[Driver]:
     return drivers_with_exp_licenses
 
 
+def register_car_by_owner(owner: Owner):
+    registration = Registration.objects.filter(car_id__isnull=True).first()
+    car = Car.objects.filter(owner_id__isnull=True).first()
+
+    car.owner = owner
+    car.registration = registration
+    car.save()
+
+    registration.registration_date = date.today()
+    registration.car = car
+    registration.save()
+
+    return f"Successfully registered {car.model} to {owner.name} with registration number {registration.registration_number}."
 
 
-drivers_with_expired_licenses = get_drivers_with_expired_licenses(date(2023, 1, 1))
-for driver in drivers_with_expired_licenses:
+owner1 = Owner.objects.get(name='Ivelin Milchev')
 
-    print(f"{driver.first_name} {driver.last_name} has to renew their driving license!")
+print(register_car_by_owner(owner1))
