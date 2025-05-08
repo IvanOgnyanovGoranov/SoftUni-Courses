@@ -48,6 +48,9 @@ class DrivingLicense(models.Model):
 class Owner(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Car(models.Model):
     model = models.CharField(max_length=50)
